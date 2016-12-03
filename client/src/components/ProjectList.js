@@ -1,17 +1,7 @@
 import React from 'react';
 import ProjectCard from './ProjectCard';
-
-const style = {
-  container: {
-    backgroundColor: 'black',
-    width: '100vw',
-    height: '100vh',
-
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  }
-};
+import backgroundImage from '../assets/wood-background.jpg'
+import { style } from './style';
 
 export const ProjectList = (props) => (
   <div style={style.container}>

@@ -4,7 +4,7 @@ import logo from './logo.svg';
 
 import {ProjectList} from './components';
 import projectsJson from './assets/projects.json';
-console.log(ProjectList);
+
 class App extends Component {
   render() {
     return (
