@@ -18,6 +18,7 @@ const gitlabRequest = (url, method = 'GET', body = null) => {
 }
 
 export const getProjects = () => gitlabRequest(`${settings.gitlabApi}/projects`);
+export const getBuilds = (projectId) => gitlabRequest(`${settings.gitlabApi}/projects/${projectId}/builds`);
 export const getHooks = (projectId) => gitlabRequest(`${settings.gitlabApi}/projects/${projectId}/hooks`);
 
 export const createHook = (projectId, secret) => {

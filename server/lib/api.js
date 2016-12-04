@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.createHook = exports.getHooks = exports.getProjects = undefined;
+exports.createHook = exports.getHooks = exports.getBuilds = exports.getProjects = undefined;
 
 var _request = require('request');
 
@@ -38,6 +38,9 @@ var gitlabRequest = function gitlabRequest(url) {
 
 var getProjects = exports.getProjects = function getProjects() {
 	return gitlabRequest(_settings.settings.gitlabApi + '/projects');
+};
+var getBuilds = exports.getBuilds = function getBuilds(projectId) {
+	return gitlabRequest(_settings.settings.gitlabApi + '/projects/' + projectId + '/builds');
 };
 var getHooks = exports.getHooks = function getHooks(projectId) {
 	return gitlabRequest(_settings.settings.gitlabApi + '/projects/' + projectId + '/hooks');

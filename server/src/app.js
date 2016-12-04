@@ -3,7 +3,7 @@ import EventEmitter from 'events';
 import { Server as WebSocketServer } from 'ws';
 import crypto from 'crypto';
 
-import { getProjects } from './api';
+import { getProjects, getBuilds, } from './api';
 import { updateHooks } from './tasks';
 import { settings } from './settings';
 
@@ -24,7 +24,13 @@ app.use(express.static('../client/build'));
 
 app.get('/projects', function(req, res){
 	getProjects().then((projects) => {
-		res.json(projects.body);
+		return Promise.all(
+			projects.body.map((project) => {
+				return getBuilds(project.id).then((builds) => Object.assign({},project, {builds: builds.body[0] || []}));
+			})
+		);
+	}).then((projectsWithBuilds) => {
+		res.json(projectsWithBuilds);
 	});
 });
 
@@ -51,6 +57,15 @@ wss.on('connection', function connection(ws) {
 			user,
 		})
 	});
+
+	// TODO: Replace this by some form of a hook to get rid of polling
+	// Check for new projects every day
+	const interval = setInterval(() => updateHooks(hash), 24 * 60 * 60000);
+
+	eventEmitter.on(hash + '-close', () => {
+		clearInterval(interval);
+	});
+
 });
 
 http.createServer(app).listen(settings.appPort, '0.0.0.0', function() {

@@ -7,7 +7,8 @@
     "type": "git"
   },
   "scripts": {
-    "build": "babel"
+    "build": "babel -d lib src",
+    "start": "npm run build && node lib/app.js"
   },
   "author": "Sjaak Meulen",
   "license": "MIT",

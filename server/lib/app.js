@@ -39,7 +39,13 @@ app.use(_express2.default.static('../client/build'));
 
 app.get('/projects', function (req, res) {
 	(0, _api.getProjects)().then(function (projects) {
-		res.json(projects.body);
+		return Promise.all(projects.body.map(function (project) {
+			return (0, _api.getBuilds)(project.id).then(function (builds) {
+				return Object.assign({}, project, { builds: builds.body[0] || [] });
+			});
+		}));
+	}).then(function (projectsWithBuilds) {
+		res.json(projectsWithBuilds);
 	});
 });
 
@@ -72,6 +78,16 @@ wss.on('connection', function connection(ws) {
 			commit: commit,
 			user: user
 		});
+	});
+
+	// TODO: Replace this by some form of a hook to get rid of polling
+	// Check for new projects every day
+	var interval = setInterval(function () {
+		return (0, _tasks.updateHooks)(hash);
+	}, 24 * 60 * 60000);
+
+	eventEmitter.on(hash + '-close', function () {
+		clearInterval(interval);
 	});
 });
 

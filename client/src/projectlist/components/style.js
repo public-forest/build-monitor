@@ -1,23 +1,9 @@
-import backgroundImage from '../assets/wood-background.jpg'
-
 export const style = {
-  container: {
-    // backgroundColor: 'white',
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundRepeat: 'repeat',
-    width: '100vw',
-    height: '100vh',
-
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-
 	card: {
-		width: 450,
+    width: '29%',
 		height: 150,
-		backgroundColor: '#008000',
-		margin: 20,
+		backgroundColor: '#808080',
+		margin: 10,
 		color: 'white',
 		padding: 20,
 		boxShadow: '0px 0px 15px 11px rgba(0,0,0,0.75)',
@@ -32,24 +18,51 @@ export const style = {
 		flex: 0.75,
 	},
 
+	clockImage: {
+		height: 22,
+		marginRight: 5,
+	},
+
 	buildInfo: {
-		flex: 0.25,
+		flex: 0.35,
+		marginTop: '15px',
+		display: 'flex',
+		flexDirection: 'row',
+	},
+
+	buildInfoDetails: {
+		display: 'flex',
+		flexDirection: 'column',
+		fontSize: 10
+	},
+
+	buildStatus: {
+		margin: 0,
 	},
 
 	status: {
-		pending: {
-			backgroundColor: 'orange'
+		//running, failed, success, canceled, skipped
+		none: {
 		},
-		inprogress: {
-			backgroundColor: '#0000ff'
+		canceled: {
+		},
+		skipped: {
 		},
 		stopped: {
-			backgroundColor: '#808080'
+		},
+		created: {
+			backgroundColor: '#E96E52'
+		},
+		pending: {
+			backgroundColor: '#E96E52'
+		},
+		running: {
+			backgroundColor: '#0000ff'
 		},
 		success: {
 			backgroundColor: '#008000'
 		},
-		failure: {
+		failed: {
 			backgroundColor: '#ff0000'
 		},
 	},
@@ -65,11 +78,6 @@ export const style = {
 		fontWeight: 'normal',
 	},
 
-	status: {
-		margin: 0,
-
-	},
-
 	user: {
 		margin: 0,
 		marginTop: 15,
@@ -81,7 +89,6 @@ export const style = {
 
 	userImage: {
 		marginRight: 10,
-		filter: 'invert(1)',
 		height: 22,
 		alignSelf: 'center',
 	}
