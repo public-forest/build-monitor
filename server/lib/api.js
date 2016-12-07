@@ -47,6 +47,7 @@ var getHooks = exports.getHooks = function getHooks(projectId) {
 };
 
 var createHook = exports.createHook = function createHook(projectId, secret) {
+	console.log("Creating hook for " + projectId);
 	return gitlabRequest(_settings.settings.gitlabApi + '/projects/' + projectId + '/hooks', 'POST', {
 		token: secret,
 		id: projectId,

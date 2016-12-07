@@ -6,7 +6,7 @@ export const style = {
 		margin: 10,
 		color: 'white',
 		padding: 20,
-		boxShadow: '0px 0px 15px 11px rgba(0,0,0,0.75)',
+		boxShadow: '0px 0px 6px 7px rgba(0,0,0,0.75)',
 	},
 
 	content: {

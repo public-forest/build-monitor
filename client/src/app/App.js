@@ -16,6 +16,32 @@ const client = new ApiClient();
 const store = createStore(browserHistory, client, window.__data);
 const history = syncHistoryWithStore(browserHistory, store);
 
+// Socket connection
+const ws = new WebSocket('ws://localhost:4000');
+ws.onmessage = function (event) {
+	console.log(event);
+  // updateStats(JSON.parse(event.data));
+};
+ws.onopen = function() {
+	console.error("OPENED");
+};
+
+// ws.on('build', (build) => {
+// 	console.error("Received build");
+
+// 	store.dispatch({
+// 		type: '@SOCKET/BUILD',
+// 		build,
+// 	})
+// })
+// export default function (store) {
+//   const socket = io.connect(`localhost:4000`);
+ 
+//   socket.on('message', message => {
+//     store.dispatch(actions.addResponse(message));
+//   });
+// }
+
 const component = (
   <Router history={history} render={
   	(props) => <ReduxAsyncConnect {...props} helpers={{client}} filter={item => !item.deferred} />

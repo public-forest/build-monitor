@@ -28,7 +28,8 @@ var http = require('http');
 var wsOptions = { port: _settings.settings.websocketPort };
 
 var app = (0, _express2.default)();
-var wss = new _ws.Server(wsOptions);
+var server = http.createServer();
+var wss = new _ws.Server({ server: server });
 
 // @TODO Move this to the front end, have it deliver the api token
 var gitlabApiToken = process.env.GITLAB_API_TOKEN;
@@ -60,24 +61,8 @@ wss.on('connection', function connection(ws) {
 	(0, _tasks.updateHooks)(hash);
 
 	eventEmitter.on(hash, function (body) {
-		var build_name = body.build_name,
-		    build_stage = body.build_stage,
-		    build_started_at = body.build_started_at,
-		    build_duration = body.build_duration,
-		    project_id = body.project_id,
-		    commit = body.commit,
-		    user = body.user;
 		// Push the builds and projectId to the front end
-
-		ws.send({
-			build_name: build_name,
-			build_stage: build_stage,
-			build_started_at: build_started_at,
-			build_duration: build_duration,
-			project_id: project_id,
-			commit: commit,
-			user: user
-		});
+		ws.send(body);
 	});
 
 	// TODO: Replace this by some form of a hook to get rid of polling
@@ -89,9 +74,15 @@ wss.on('connection', function connection(ws) {
 	eventEmitter.on(hash + '-close', function () {
 		clearInterval(interval);
 	});
+
+	// Test event emission
+	eventEmitter.emit(hash, "{data: 'hello'}");
 });
 
-http.createServer(app).listen(_settings.settings.appPort, '0.0.0.0', function () {
+// Link app and server together
+server.on('request', app);
+
+server.listen(_settings.settings.appPort, '0.0.0.0', function () {
 	console.log("Server started");
 });
 
